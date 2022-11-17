@@ -74,4 +74,28 @@ kubectl expose pod your-app-pod-name --port=80 --name=your-svc-name --type=NodeP
 kubectl describe svc your-svc-name
 ```
 
-# Endpoint to access the web
+## Use endpoint to access the web
+
+
+# EARLIER GIT STEPS
+Go into the directory containing the project.
+```bash
+git init
+git add .
+git commit -m "readme"
+```
+Go to  www.github.com and loggin
+Right upper corner and hit create a new repository, then:
+```bash
+git branch -M main
+git remote add origin git@github.com:your_user/your_repo_name.git
+git push -u origin main
+```
+# DOCKER BASICS
+```bash
+docker ps -a    #to list all containers
+docker images   #to list images
+docker rm       #clean removing containers 1st. Use ID first 2 chars
+docker rmi      #to remove images. Use ID first 2 chars
+```
+
