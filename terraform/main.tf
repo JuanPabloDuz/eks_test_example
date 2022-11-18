@@ -1,10 +1,8 @@
-data "aws_eks_cluster" "default" {
-  name = module.eks_internal.eks_cluster_id
-}
+## VPC 
 
-data "aws_eks_cluster_auth" "default" {
-  name = module.eks_internal.eks_cluster_id
-}
+module "vpc" {
+  source = "./modules/vpc"
+  availability_zones = ["us-east-1a", "us-east-1b, "us-east-1c"] }
 
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.default.endpoint
@@ -18,8 +16,8 @@ module "eks_test" {
   # EKS CLUSTER
   cluster_version           = "1.21"
   cluster_name              = "eks-test"
-  vpc_id                    = "vpc-1"                                      
-  private_subnet_ids        = ["subnet-1", "subnet-2", "subnet-3"]     
+  vpc_id                    = var.vpc_id                                     
+  private_subnet_ids        = module.vpc.subnet_public     
   tags                      = merge({
     "tag1"       =	"foo"  
     "tag2"       =	"bar"
@@ -29,7 +27,7 @@ module "eks_test" {
     mg_m5 = {
       node_group_name = "managed-ondemand"
       instance_types  = ["t3.small"]
-      subnet_ids      = ["subnet-1", "subnet-2", "subnet-3"]
+      subnet_ids      = module.vpc.subnet_public
       min_size        = 5
       max_size        = 7
       desired_size    = 5
